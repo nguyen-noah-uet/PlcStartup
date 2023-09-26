@@ -17,8 +17,9 @@ do
 } while (connected == false);
 
 Console.WriteLine("Internet connection established.");
-await RunCommand(dotnetCommand);
-await RunCommand(pythonCommand);
+Task dotnetTask = RunCommand(dotnetCommand);
+Task pythonTask = RunCommand(pythonCommand);
+await Task.WhenAll(dotnetTask, pythonTask);
 
 
 static async Task RunCommand(string command)
