@@ -51,13 +51,15 @@ static async Task<bool> HasInternetConnection()
 {
     try
     {
-        using HttpClient client = new();
-        client.Timeout = TimeSpan.FromSeconds(5);
-        using HttpResponseMessage response = await client.GetAsync("https://www.google.com");
-        return response.IsSuccessStatusCode;
+        using (var client = new HttpClient())
+        {
+            var response = await client.GetAsync("https://www.google.com");
+            return response.IsSuccessStatusCode;
+        }
     }
-    catch
+    catch (Exception ex)
     {
+        Console.WriteLine($"Exception: {ex.Message}");
         return false;
     }
 }
